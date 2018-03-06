@@ -103,7 +103,7 @@ function nextQuestion() {
         choices.addClass("newClass");
         $(".answers").append(choices);
     }
-    //making the timer function start (need to build later)
+    //clicking one of the answer choices will now stop the timer and start the answer display function
     timer();
     $(".newClass").on('click', function () {
         userChoice = $(this).data('index');
@@ -130,8 +130,10 @@ function timeDisplay() {
 }
 
 function answerDisplay() {
+    $("#currentQuestion").empty();
     $(".newClass").empty();
     $(".questions").empty();
+
 
     var rightAnswerMessage = questionList[currentQuestion].answerList[questionList[currentQuestion].answer];
     var rightAnswerIndex = questionList[currentQuestion].answer;
@@ -139,7 +141,7 @@ function answerDisplay() {
     if ((userChoice == rightAnswerIndex) && (answered == true)) {
         rightAnswer++;
         $("#answerMessage").html(messages.right);
-    } else if ((userChoice != rightAnswerIndex) && (answered = true)) {
+    } else if ((userChoice != rightAnswerIndex) && (answered == true)) {
         wrongAnswer++;
         $("#answerMessage").html(messages.wrong);
         $("#correctAnswer").html(rightAnswerMessage);
@@ -153,7 +155,7 @@ function answerDisplay() {
         setTimeout(mainDisplay, 1000)
     } else {
         currentQuestion++;
-        setTimeout(nextQuestion, 1000)
+        setTimeout(nextQuestion, 1000);
     }
 }
 
