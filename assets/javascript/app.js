@@ -102,7 +102,7 @@ function nextQuestion() {
     timer();
     $('.newClass').on('click', function () {
         userChoice = $(this).data('index');
-        clearTime(time);
+        clearInterval(time);
         showAnswers();
     });
 }
@@ -111,15 +111,22 @@ function timer() {
     seconds = 10        ;
     $("#timeRemaining").html("Time Remaining: " + seconds);
     answered = true;
-    time = setTime(timeDisplay, 1000);
+    time = setInterval(timeDisplay, 1000);
 }
 
 function timeDisplay() {
     seconds--;
     $("#timeRemaining").html("Time Remaining: " + seconds);
     if (seconds < 1) {
-        clearTime(time);
+        clearInterval(time);
         answered = false;
         showAnswers();
     }
+}
+
+function answerDisplay() {
+    $(".newClass").empty();
+    $(".questions").empty();
+
+
 }
