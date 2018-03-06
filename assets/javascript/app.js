@@ -73,7 +73,7 @@ function newGame() {
     $("#rightAnswers").empty();
     $("#wrongAnswers").empty();
     $("#notAnswered").empty();
-    currentQuestion=0;
+    currentQuestion = 0;
     rightAnswer = 0;
     wrongAnswer = 0;
     notanswered = 0;
@@ -90,25 +90,25 @@ function nextQuestion() {
 
     $(".questions").html(questionList[currentQuestion].question);
     for (var i = 0; i < 4; i++) {
-        var choices = $('<div>');
+        var choices = $("<div>");
         choices.text(questionList[currentQuestion].answerList[i]);
         choices.attr({
-            'data-index': i
+            "data-index": i
         });
-        choices.addClass('newClass');
-        $('.answerList').append(choices);
+        choices.addClass("newClass");
+        $(".answers").append(choices);
     }
     //making the timer function start (need to build later)
     timer();
-    $('.newClass').on('click', function () {
+    $(".newClass").on('click', function () {
         userChoice = $(this).data('index');
         clearInterval(time);
-        showAnswers();
+        answerDisplay();
     });
 }
 
 function timer() {
-    seconds = 10        ;
+    seconds = 10;
     $("#timeRemaining").html("Time Remaining: " + seconds);
     answered = true;
     time = setInterval(timeDisplay, 1000);
@@ -120,7 +120,7 @@ function timeDisplay() {
     if (seconds < 1) {
         clearInterval(time);
         answered = false;
-        showAnswers();
+        answerDisplay();
     }
 }
 
@@ -128,5 +128,37 @@ function answerDisplay() {
     $(".newClass").empty();
     $(".questions").empty();
 
+    var rightAnswerMessage = questionList[currentQuestion].answerList[questionList[currentQuestion].answer];
+    var rightAnswerIndex = questionList[currentQuestion].answer;
+
+    if ((userChoice == rightAnswerIndex) && (answered == true)) {
+        rightAnswer++;
+        $("#answerMessage").html(messages.right);
+    } else if ((userChoice != rightAnswerIndex) && (answered = true)) {
+        wrongAnswer++;
+        $("#answerMessage").html(messages.wrong);
+        $("#answers").html(rightAnswerMessage);
+    } else {
+        notAnswered++;
+        $("#answerMessage").html(rightAnswerMessage);
+        answered = true;
+    }
+    if(currentQuestion == (questionList.length-1)){
+        setTimeout(mainDisplay, 5000)
+    } else {
+        currentQuestion++;
+        setTimeout(nextQuestion, 5000)
+    }
+}
+
+function mainDispplay(){
+    $("#timeRemaining").empty();
+    $("#answerMessage").empty();
+    $("#correctAnswer").empty();
+
+    $("#gameOver").html(messages.done);
+    $("#rightAnswers").html(rightAnswer);
+    $("#wrongAnswers").html(wrongAnswer);
+    $("#notAnswered").html(notAnswered);
 
 }
