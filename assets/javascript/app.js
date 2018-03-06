@@ -27,7 +27,7 @@ var questionList = [{
 }, {
     question: "What CIA agent works to stop a terrorist plot while working against an unknwown mole?",
     answerList: ["006", "Ethan Hawk", "James Bond", "Ethan Hunt"],
-    answer: 2
+    answer: 3
 }, {
     question: "Who designed Zelda Ocarina of Time?",
     answerList: ["Hideo Kojima", "Shigeru Miyamoto", "Sid Meier", "Will Wright"],
@@ -56,8 +56,8 @@ var seconds;
 
 var messages = {
     right: "Correct!",
-    wrong: "Nope.",
-    timeOut: "Time is up!",
+    wrong: "Nope, it was: ",
+    timeOut: "The answer was: ",
     done: "Let's see how you did."
 }
 
@@ -67,16 +67,21 @@ $("#readyBtn").on('click', function () {
     newGame();
 });
 
+$("#readyAgainBtn").on('click', function () {
+    $(this).hide();
+    newGame();
+});
+
 // setting up the new game function that clears the scoreboard variables and starts the next question function
 function newGame() {
-    $("#gameover").empty();
+    $("#gameOver").empty();
     $("#rightAnswers").empty();
     $("#wrongAnswers").empty();
     $("#notAnswered").empty();
     currentQuestion = 0;
     rightAnswer = 0;
     wrongAnswer = 0;
-    notanswered = 0;
+    notAnswered = 0;
     nextQuestion();
 }
 
@@ -137,28 +142,31 @@ function answerDisplay() {
     } else if ((userChoice != rightAnswerIndex) && (answered = true)) {
         wrongAnswer++;
         $("#answerMessage").html(messages.wrong);
-        $("#answers").html(rightAnswerMessage);
+        $("#correctAnswer").html(rightAnswerMessage);
     } else {
         notAnswered++;
-        $("#answerMessage").html(rightAnswerMessage);
+        $("#answerMessage").html(messages.timeOut);
+        $("#correctAnswer").html(rightAnswerMessage);
         answered = true;
     }
-    if(currentQuestion == (questionList.length-1)){
-        setTimeout(mainDisplay, 5000)
+    if (currentQuestion == (questionList.length - 1)) {
+        setTimeout(mainDisplay, 1000)
     } else {
         currentQuestion++;
-        setTimeout(nextQuestion, 5000)
+        setTimeout(nextQuestion, 1000)
     }
 }
 
-function mainDispplay(){
+function mainDisplay() {
     $("#timeRemaining").empty();
     $("#answerMessage").empty();
     $("#correctAnswer").empty();
 
     $("#gameOver").html(messages.done);
-    $("#rightAnswers").html(rightAnswer);
-    $("#wrongAnswers").html(wrongAnswer);
-    $("#notAnswered").html(notAnswered);
-
+    $("#rightAnswers").html("Right: " + rightAnswer);
+    $("#wrongAnswers").html("Wrong: " + wrongAnswer);
+    $("#notAnswered").html("Not Answered: " + notAnswered);
+    $("#readyAgainBtn").addClass("reset");
+    $("#readyAgainBtn").show();
+    $("#readyAgainBtn").html("Retry?");
 }
