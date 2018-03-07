@@ -1,8 +1,19 @@
 
+@font-face {
+    font-family: 'NintendoFont'; /*a name to be used later*/
+    src: url('C:\Users\GTrapp\Desktop\Coding\TriviaGame\assets\images.ttf'); /*URL to font*/
+}
+
 html { 
     background: url("../images/nintendoBackground.jpg") no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-  }
+  };
+
+
+.container {
+  
+    font-family: 'NintendoFont';
+}
